@@ -7,102 +7,111 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #1e293b; overflow: hidden; }
-        .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid #e2e8f0; }
-        .blue-gradient { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); }
-        .custom-scroll::-webkit-scrollbar { width: 5px; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        .btn-active { background: #3b82f6 !important; color: white !important; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; overflow: hidden; }
+        .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); border: 1px solid #e2e8f0; }
+        .blue-gradient { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); }
+        .text-gradient { background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .custom-scroll::-webkit-scrollbar { width: 6px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 10px; }
+        .btn-active { background: #2563eb !important; color: white !important; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3); }
         
-        /* Dynamic Animations */
-        @keyframes sun-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        .animate-sun { animation: sun-float 3s ease-in-out infinite; }
-        @keyframes rotate-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .orbit-slow { animation: rotate-slow 10s linear infinite; }
+        /* Animations */
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+        .animate-float { animation: float 3s ease-in-out infinite; }
+        @keyframes orbit { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .planet-orbit { animation: orbit 8s linear infinite; transform-origin: center; }
+        @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); } 100% { box-shadow: 0 0 0 15px rgba(37, 99, 235, 0); } }
+        .animate-pulse-ring { animation: pulse-ring 2s infinite; }
     </style>
 </head>
-<body class="h-screen flex flex-col">
+<body class="h-screen flex flex-col bg-white">
 
-    <div id="auth-screen" class="fixed inset-0 z-[100] bg-white flex items-center justify-center p-6">
-        <div class="text-center space-y-8 p-12 border border-slate-100 rounded-[3rem] shadow-xl">
-            <div class="flex justify-center animate-sun">
-                <svg width="80" height="80" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="25" fill="#fbbf24"/>
-                    <path d="M50 10v10M50 80v10M80 50h10M10 50h10" stroke="#fbbf24" stroke-width="5" stroke-linecap="round"/>
+    <div id="auth-screen" class="fixed inset-0 z-[100] bg-slate-50 flex items-center justify-center p-6">
+        <div class="max-w-md w-full text-center space-y-8 glass p-12 rounded-[2.5rem] shadow-2xl">
+            <div class="flex justify-center animate-float">
+                <svg width="90" height="90" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="24" fill="#fbbf24"/>
+                    <path d="M50 10v10M50 80v10M80 50h10M10 50h10M22 22l7 7M71 71l7 7M78 22l-7 7M22 78l7-7" stroke="#fbbf24" stroke-width="4" stroke-linecap="round"/>
                 </svg>
             </div>
-            <h1 class="text-4xl font-black tracking-tighter text-slate-900">SYK AI <span class="text-blue-600">PRO</span></h1>
-            <button id="login-btn" class="w-full blue-gradient text-white py-4 rounded-full font-bold shadow-lg hover:opacity-90 transition-all flex items-center justify-center gap-3">
-                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/action/google.svg" class="w-5 bg-white rounded-full p-0.5"> Google से प्रवेश करें
+            <div>
+                <h1 class="text-4xl font-black text-gradient">SYK AI</h1>
+                <p class="text-blue-600 text-[10px] tracking-[0.4em] font-bold uppercase mt-2">Star By King</p>
+            </div>
+            <button id="login-btn" class="w-full blue-gradient text-white py-4 rounded-full font-bold shadow-lg hover:shadow-blue-500/50 transition-all flex items-center justify-center gap-3">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/action/google.svg" class="w-6 bg-white p-1 rounded-full"> Google से प्रवेश करें
             </button>
         </div>
     </div>
 
-    <header class="h-20 glass flex items-center justify-between px-6 shrink-0 z-50">
-        <div class="flex items-center gap-3">
-            <button id="menu-btn" class="p-2 text-slate-600"><i data-lucide="menu"></i></button>
-            <h2 class="text-xl font-black tracking-tight text-slate-800">SYK <span class="text-blue-600">AI</span></h2>
+    <header class="h-20 glass flex items-center justify-between px-4 md:px-8 shrink-0 z-40 border-b border-slate-100">
+        <div class="flex items-center gap-4">
+            <button id="menu-btn" class="p-2 text-slate-500 hover:bg-slate-100 rounded-xl"><i data-lucide="menu"></i></button>
+            <h2 class="text-xl font-black text-slate-800 hidden md:block">SYK <span class="text-blue-600">AI</span></h2>
         </div>
         
-        <div class="flex bg-slate-100 p-1 rounded-full border border-slate-200">
-            <button onclick="switchMode('chat')" id="tab-chat" class="px-5 py-2 rounded-full text-xs font-bold btn-active transition-all">चैट</button>
-            <button onclick="switchMode('image')" id="tab-image" class="px-5 py-2 rounded-full text-xs font-bold text-slate-500 transition-all">चित्रकारी</button>
-            <button onclick="switchMode('story')" id="tab-story" class="px-5 py-2 rounded-full text-xs font-bold text-slate-500 transition-all">कहानी</button>
+        <div class="flex bg-slate-100 p-1.5 rounded-full border border-slate-200">
+            <button onclick="switchMode('chat')" id="tab-chat" class="px-5 py-2 rounded-full text-xs font-bold btn-active transition-all text-slate-600">चैट</button>
+            <button onclick="switchMode('image')" id="tab-image" class="px-5 py-2 rounded-full text-xs font-bold text-slate-600 transition-all hover:text-blue-600">चित्रकारी</button>
+            <button onclick="switchMode('story')" id="tab-story" class="px-5 py-2 rounded-full text-xs font-bold text-slate-600 transition-all hover:text-blue-600">कहानी</button>
         </div>
 
-        <div class="flex items-center gap-3">
-            <span id="user-name-display" class="hidden md:block text-xs font-bold text-blue-600"></span>
-            <button id="logout-btn" class="p-2 text-red-500"><i data-lucide="power"></i></button>
+        <div class="flex items-center gap-4">
+            <span id="user-greeting" class="hidden md:block text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1.5 rounded-full border border-blue-100"></span>
+            <button id="logout-btn" class="p-2 text-red-500 hover:bg-red-50 rounded-xl transition-all"><i data-lucide="power"></i></button>
         </div>
     </header>
 
     <div class="flex-1 flex overflow-hidden">
-        <aside id="sidebar" class="fixed lg:relative z-[60] w-72 h-full bg-white border-r border-slate-100 -translate-x-full lg:translate-x-0 transition-transform duration-300 flex flex-col">
-            <div class="p-6 border-b border-slate-50 flex justify-between items-center">
-                <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">इतिहास</span>
-                <button id="close-sidebar" class="lg:hidden"><i data-lucide="x"></i></button>
+        <aside id="sidebar" class="fixed lg:relative z-50 w-72 h-full bg-white border-r border-slate-200 -translate-x-full lg:translate-x-0 transition-transform duration-300 flex flex-col shadow-2xl lg:shadow-none">
+            <div class="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                <span class="text-xs font-black uppercase tracking-widest text-slate-500">इतिहास</span>
+                <button id="close-sidebar" class="lg:hidden text-slate-400 p-1 hover:bg-slate-200 rounded"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
-            <div id="history-list" class="flex-1 overflow-y-auto p-4 space-y-2 custom-scroll"></div>
+            <div id="history-list" class="flex-1 overflow-y-auto p-3 space-y-2 custom-scroll bg-white"></div>
         </aside>
 
-        <main class="flex-1 flex flex-col relative bg-[#fcfcfc]">
-            <div id="chat-container" class="flex-1 overflow-y-auto p-6 md:p-12 space-y-8 pb-40 custom-scroll relative">
+        <main class="flex-1 flex flex-col relative bg-[#fafafa]">
+            <div id="chat-container" class="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 pb-48 custom-scroll relative">
                 
-                <div id="logo-center" class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none opacity-20">
-                    <div id="logo-svg-container" class="animate-sun">
-                        <svg width="120" height="120" viewBox="0 0 100 100"><circle cx="50" cy="50" r="25" fill="#fbbf24"/><path d="M50 10v10M50 80v10M80 50h10M10 50h10" stroke="#fbbf24" stroke-width="4" stroke-linecap="round"/></svg>
+                <div id="center-logo-box" class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none opacity-30 transition-all duration-500">
+                    <div id="dynamic-svg" class="animate-float">
+                        <svg width="150" height="150" viewBox="0 0 100 100"><circle cx="50" cy="50" r="25" fill="#fbbf24"/><path d="M50 10v10M50 80v10M80 50h10M10 50h10" stroke="#fbbf24" stroke-width="5" stroke-linecap="round"/></svg>
                     </div>
-                    <p id="logo-subtext" class="text-[10px] font-black uppercase tracking-[1em] text-blue-900 mt-4">Star By King</p>
+                    <p id="dynamic-text" class="mt-6 text-xs font-black uppercase tracking-[0.5em] text-slate-800">STAR BY KING</p>
                 </div>
 
             </div>
 
-            <div class="p-6">
-                <div class="max-w-4xl mx-auto glass p-3 rounded-[2.5rem] shadow-2xl border border-blue-50">
+            <div class="absolute bottom-6 left-0 right-0 px-4 md:px-12 z-40">
+                <div class="max-w-4xl mx-auto glass p-4 rounded-[2rem] shadow-[0_10px_40px_-10px_rgba(37,99,235,0.2)] border border-blue-100">
                     
-                    <div id="extra-tools" class="px-4 pb-2 flex gap-4 hidden">
-                        <div id="voice-options" class="flex gap-2">
-                            <select id="voice-select" class="text-[10px] font-bold bg-slate-50 p-1 rounded border"></select>
-                            <select id="mood-select" class="text-[10px] font-bold bg-slate-50 p-1 rounded border">
-                                <option value="1.0">शांत</option>
-                                <option value="0.7">गंभीर</option>
-                                <option value="1.2">रोमांचक</option>
+                    <div id="tool-bar" class="hidden px-2 pb-3 mb-2 flex gap-3 border-b border-slate-100">
+                        <div id="image-tools" class="hidden flex gap-2 w-full">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase self-center">साइज:</span>
+                            <select id="size-select" class="text-xs font-bold text-blue-700 bg-blue-50 border border-blue-100 rounded-lg p-1.5 outline-none flex-1">
+                                <option value="1:1">1:1 Square</option>
+                                <option value="16:9">16:9 (YouTube)</option>
+                                <option value="9:16">9:16 (Shorts)</option>
                             </select>
                         </div>
-                        <div id="image-options" class="hidden">
-                            <select id="size-select" class="text-[10px] font-bold bg-slate-50 p-1 rounded border">
-                                <option value="1:1">1:1 Square</option>
-                                <option value="16:9">16:9 YouTube</option>
-                                <option value="9:16">9:16 Shorts</option>
+                        <div id="voice-tools" class="hidden flex gap-2 w-full">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase self-center">आवाज़:</span>
+                            <select id="voice-select" class="text-xs font-bold text-blue-700 bg-blue-50 border border-blue-100 rounded-lg p-1.5 outline-none flex-1 truncate"></select>
+                            <select id="mood-select" class="text-xs font-bold text-blue-700 bg-blue-50 border border-blue-100 rounded-lg p-1.5 outline-none w-28">
+                                <option value="normal">सामान्य</option>
+                                <option value="calm">शांत</option>
+                                <option value="serious">गंभीर</option>
+                                <option value="excited">रोमांचक</option>
                             </select>
                         </div>
                     </div>
 
-                    <div class="flex items-center gap-3">
-                        <textarea id="prompt-input" placeholder="शिवम, यहाँ लिखें..." rows="1" class="flex-1 bg-transparent p-3 text-sm outline-none resize-none"></textarea>
-                        <button id="send-btn" class="w-12 h-12 blue-gradient text-white rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-all">
-                            <i data-lucide="send" class="w-5 h-5 ml-0.5"></i>
+                    <div class="flex items-end gap-3">
+                        <textarea id="prompt-input" placeholder="शिवम, यहाँ अपना संदेश लिखें..." class="flex-1 bg-transparent p-3 text-slate-800 text-sm outline-none resize-none max-h-32 min-h-[44px] custom-scroll"></textarea>
+                        <button id="send-btn" class="w-12 h-12 shrink-0 blue-gradient text-white rounded-2xl flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all">
+                            <i data-lucide="send" class="w-5 h-5 ml-1"></i>
                         </button>
                     </div>
                 </div>
@@ -115,6 +124,7 @@
         import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+        // Keys & Config
         const firebaseConfig = {
             apiKey: "AIzaSyAf_eqSF0dNw2pvJw7jY43abayLF4ps2g8",
             authDomain: "syk-ai-e2005.firebaseapp.com",
@@ -123,7 +133,7 @@
             messagingSenderId: "646362729227",
             appId: "1:646362729227:web:fa68bffdb2b017d42300e"
         };
-        const GEMINI_KEY = "AIzaSyASW8VPcUu1L94FeQCOkGzKrmqZkC2wIk8";
+        const GEMINI_API_KEY = "AIzaSyASW8VPcUu1L94FeQCOkGzKrmqZkC2wIk8";
         
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
@@ -133,113 +143,149 @@
         let currentMode = "chat";
         let userName = "शिवम";
 
-        // UI Handlers
+        // UI Elements
         const chatContainer = document.getElementById('chat-container');
         const promptInput = document.getElementById('prompt-input');
         const sendBtn = document.getElementById('send-btn');
-        const logoSvg = document.getElementById('logo-svg-container');
+        const centerLogoBox = document.getElementById('center-logo-box');
+        const dynSvg = document.getElementById('dynamic-svg');
+        const dynText = document.getElementById('dynamic-text');
+
+        // Dynamic SVGs
+        const svgs = {
+            chat: `<svg width="150" height="150" viewBox="0 0 100 100"><circle cx="50" cy="50" r="25" fill="#fbbf24"/><path d="M50 10v10M50 80v10M80 50h10M10 50h10" stroke="#fbbf24" stroke-width="5" stroke-linecap="round"/></svg>`,
+            image: `<svg width="150" height="150" viewBox="0 0 100 100"><rect x="20" y="25" width="60" height="50" fill="none" stroke="#2563eb" stroke-width="4" rx="4"/><circle cx="45" cy="45" r="10" fill="#fbbf24"/><path d="M70 30 L90 10 M90 10 L85 5" stroke="#1e293b" stroke-width="4" stroke-linecap="round"/></svg>`,
+            story: `<svg width="180" height="180" viewBox="0 0 100 100"><circle cx="50" cy="50" r="18" fill="#fbbf24"/><g class="planet-orbit"><circle cx="15" cy="50" r="6" fill="#3b82f6"/></g><g class="planet-orbit" style="animation-duration: 12s; animation-direction: reverse;"><circle cx="80" cy="20" r="4" fill="#ef4444"/></g></svg>`
+        };
 
         // Mode Switching
         window.switchMode = (mode) => {
             currentMode = mode;
-            document.querySelectorAll('header button').forEach(b => b.classList.remove('btn-active', 'text-slate-500'));
-            document.getElementById(`tab-${mode}`).classList.add('btn-active');
-            
-            document.getElementById('extra-tools').classList.remove('hidden');
-            document.getElementById('voice-options').classList.add('hidden');
-            document.getElementById('image-options').classList.add('hidden');
+            ['chat', 'image', 'story'].forEach(m => {
+                const btn = document.getElementById(`tab-${m}`);
+                btn.className = "px-5 py-2 rounded-full text-xs font-bold transition-all " + (m === mode ? "btn-active text-white" : "text-slate-600 hover:text-blue-600");
+            });
+
+            const toolBar = document.getElementById('tool-bar');
+            const imgTools = document.getElementById('image-tools');
+            const voiceTools = document.getElementById('voice-tools');
+
+            toolBar.classList.add('hidden'); imgTools.classList.add('hidden'); voiceTools.classList.add('hidden');
+
+            dynSvg.innerHTML = svgs[mode];
 
             if(mode === 'chat') {
-                document.getElementById('extra-tools').classList.add('hidden');
-                logoSvg.innerHTML = `<svg width="120" height="120" viewBox="0 0 100 100"><circle cx="50" cy="50" r="25" fill="#fbbf24"/><path d="M50 10v10M50 80v10M80 50h10M10 50h10" stroke="#fbbf24" stroke-width="4" stroke-linecap="round"/></svg>`;
+                dynText.innerText = "STAR BY KING";
+                promptInput.placeholder = `${userName}, यहाँ अपना संदेश लिखें...`;
             } else if(mode === 'image') {
-                document.getElementById('image-options').classList.remove('hidden');
-                logoSvg.innerHTML = `<svg width="120" height="120" viewBox="0 0 100 100"><rect x="25" y="25" width="50" height="40" stroke="#3b82f6" fill="none" stroke-width="3"/><circle cx="45" cy="40" r="8" fill="#fbbf24"/><path d="M70 30 L85 10" stroke="#1e293b" stroke-width="4"/></svg>`;
+                toolBar.classList.remove('hidden'); imgTools.classList.remove('hidden');
+                dynText.innerText = "विज़ुअल स्टूडियो";
+                promptInput.placeholder = "चित्र का वर्णन करें...";
             } else if(mode === 'story') {
-                document.getElementById('voice-options').classList.remove('hidden');
-                logoSvg.innerHTML = `<div class="relative"><svg width="120" height="120" viewBox="0 0 100 100" class="orbit-slow"><circle cx="50" cy="50" r="20" fill="#fbbf24"/><circle cx="15" cy="50" r="6" fill="#3b82f6"/><circle cx="85" cy="50" r="4" fill="#ef4444"/></svg></div>`;
+                toolBar.classList.remove('hidden'); voiceTools.classList.remove('hidden');
+                dynText.innerText = "कथावाचक (STORY & TTS)";
+                promptInput.placeholder = "कहानी का विषय लिखें...";
                 loadVoices();
             }
         };
 
-        // Auth
+        // Auth Logic
         document.getElementById('login-btn').onclick = () => signInWithPopup(auth, provider);
         document.getElementById('logout-btn').onclick = () => signOut(auth);
         
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 document.getElementById('auth-screen').style.display = 'none';
-                userName = user.displayName.split(' ')[0];
-                document.getElementById('user-name-display').innerText = `नमस्ते, ${userName}`;
+                userName = user.displayName.split(' ')[0] || "शिवम";
+                document.getElementById('user-greeting').innerText = `नमस्ते, ${userName}`;
+                promptInput.placeholder = `${userName}, यहाँ अपना संदेश लिखें...`;
                 syncHistory(user.uid);
             } else {
                 document.getElementById('auth-screen').style.display = 'flex';
             }
         });
 
-        // TTS Voices
+        // TTS Setup
         let voices = [];
+        const synth = window.speechSynthesis;
         function loadVoices() {
-            voices = window.speechSynthesis.getVoices().filter(v => v.lang.includes('hi') || v.lang.includes('en'));
+            voices = synth.getVoices().filter(v => v.lang.includes('hi') || v.lang.includes('en'));
             const select = document.getElementById('voice-select');
-            select.innerHTML = voices.map((v, i) => `<option value="${i}">${v.name}</option>`).join('');
+            select.innerHTML = voices.length ? voices.map((v, i) => `<option value="${i}">${v.name}</option>`).join('') : '<option>आवाज़ें लोड हो रही हैं...</option>';
         }
-        window.speechSynthesis.onvoiceschanged = loadVoices;
+        if (synth.onvoiceschanged !== undefined) synth.onvoiceschanged = loadVoices;
 
-        // Core AI Engine
+        // Core AI Runner
         async function runSYK() {
             const prompt = promptInput.value.trim();
             if(!prompt) return;
             promptInput.value = '';
-            document.getElementById('logo-center').style.display = 'none';
+            centerLogoBox.style.display = 'none'; // Hide center logo when active
             
             appendMsg('user', prompt);
             const loadId = appendLoading();
 
             try {
                 if(currentMode === 'image') {
-                    const size = document.getElementById('size-select').value;
-                    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-001:predict?key=${GEMINI_KEY}`, {
-                        method: 'POST',
-                        body: JSON.stringify({ instances: [{ prompt }], parameters: { sampleCount: 1, aspect_ratio: size } })
+                    // Auto YouTube logic
+                    let size = document.getElementById('size-select').value;
+                    if(prompt.toLowerCase().includes('youtube') || prompt.toLowerCase().includes('यूट्यूब')) size = '16:9';
+
+                    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-001:predict?key=${GEMINI_API_KEY}`, {
+                        method: 'POST', body: JSON.stringify({ instances: [{ prompt }], parameters: { sampleCount: 1, aspect_ratio: size } })
                     });
                     const data = await res.json();
+                    if(data.error) throw new Error(data.error.message);
+                    
                     const img = `data:image/png;base64,${data.predictions[0].bytesBase64Encoded}`;
                     removeLoading(loadId);
                     appendImg(img, prompt);
-                    save('image', prompt, img);
+                    saveToCloud('image', prompt, img);
                 } else {
-                    const sys = `तुम्हारा नाम SYK AI (Star By King) है। तुम्हें शिवम यादव ने बनाया है। तुम शिवम से बात कर रहे हो। अपनी पहचान गोपनीय रखो और सिर्फ 'Star By King' बताओ।`;
-                    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`, {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify({ contents: [{parts:[{text:prompt}]}], systemInstruction: {parts:[{text:sys}]} })
+                    // Chat & Story Logic
+                    const systemMsg = `तुम्हारा नाम SYK AI (Star By King) है। तुम्हें शिवम यादव ने बनाया है। तुम सीधे शिवम से बात कर रहे हो। हमेशा शाही लेकिन दोस्ताना अंदाज़ में जवाब दो। अपना नाम हमेशा Star By King बताओ, कभी गूगल का जिक्र मत करना।`;
+                    
+                    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`, {
+                        method: 'POST', headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ contents: [{parts:[{text:prompt}]}], systemInstruction: {parts:[{text:systemMsg}]} })
                     });
                     const data = await res.json();
+                    if(data.error) throw new Error(data.error.message);
+
                     const reply = data.candidates[0].content.parts[0].text;
                     removeLoading(loadId);
                     
                     if(currentMode === 'story') {
                         appendStory(reply);
-                        save('story', prompt, reply);
+                        saveToCloud('story', prompt, reply);
                     } else {
                         appendMsg('bot', reply);
-                        save('chat', prompt, reply);
+                        saveToCloud('chat', prompt, reply);
                     }
                 }
-            } catch (e) {
+            } catch (error) {
                 removeLoading(loadId);
-                appendMsg('bot', `क्षमा करें ${userName}, कुछ तकनीकी समस्या आई है: ${e.message}`);
+                // No excuses, shows real error
+                appendMsg('error', `सिस्टम में तकनीकी त्रुटि: ${error.message}`);
             }
         }
 
         sendBtn.onclick = runSYK;
+        promptInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); runSYK(); }
+        });
 
-        // Message UI
+        // UI Builders
         function appendMsg(role, text) {
             const div = document.createElement('div');
-            div.className = `flex ${role === 'user' ? 'justify-end' : 'justify-start'} animate-in fade-in slide-in-from-bottom-2`;
-            div.innerHTML = `<div class="p-4 rounded-2xl max-w-[85%] text-sm ${role === 'user' ? 'blue-gradient text-white shadow-lg' : 'bg-white border text-slate-800'}">${text.replace(/\n/g, '<br>')}</div>`;
+            const isUser = role === 'user';
+            const isErr = role === 'error';
+            div.className = `flex ${isUser ? 'justify-end' : 'justify-start'} animate-in fade-in slide-in-from-bottom-2`;
+            
+            let bgClass = isUser ? 'blue-gradient text-white rounded-br-none shadow-md' : 'bg-white border border-slate-200 text-slate-800 rounded-bl-none shadow-sm';
+            if(isErr) bgClass = 'bg-red-50 border border-red-200 text-red-700 rounded-bl-none';
+
+            div.innerHTML = `<div class="p-4 rounded-3xl max-w-[85%] text-sm leading-relaxed ${bgClass}">${text.replace(/\n/g, '<br>')}</div>`;
             chatContainer.appendChild(div);
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
@@ -247,69 +293,98 @@
         function appendImg(url, p) {
             const div = document.createElement('div');
             div.className = "flex justify-start animate-in zoom-in-95";
-            div.innerHTML = `<div class="bg-white border p-2 rounded-2xl max-w-[90%] shadow-lg">
-                <img src="${url}" class="rounded-xl w-full">
-                <div class="flex justify-between p-2"><span class="text-[10px] text-slate-400 italic">${p}</span><a href="${url}" download="SYK.png" class="text-blue-600"><i data-lucide="download" class="w-4 h-4"></i></a></div>
-            </div>`;
+            div.innerHTML = `
+                <div class="bg-white border border-slate-200 p-2 rounded-3xl max-w-[90%] md:max-w-[60%] shadow-lg">
+                    <img src="${url}" class="rounded-2xl w-full object-cover">
+                    <div class="flex justify-between items-center p-3">
+                        <span class="text-[10px] text-slate-500 italic truncate pr-4">${p}</span>
+                        <a href="${url}" download="SYK_AI_Image.png" class="p-2 bg-blue-50 hover:bg-blue-600 hover:text-white text-blue-600 rounded-full transition-all"><i data-lucide="download" class="w-4 h-4"></i></a>
+                    </div>
+                </div>`;
             chatContainer.appendChild(div);
             lucide.createIcons();
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
 
         function appendStory(text) {
-            const id = 's' + Date.now();
+            const id = 'story_' + Date.now();
             const div = document.createElement('div');
-            div.className = "flex justify-start";
-            div.innerHTML = `<div class="bg-blue-50 border border-blue-100 p-5 rounded-3xl w-full max-w-[90%] shadow-sm">
-                <div class="flex gap-3 mb-3">
-                    <button onclick="playAudio('${id}')" class="p-3 blue-gradient text-white rounded-full"><i data-lucide="play" class="w-4 h-4"></i></button>
-                    <div><p class="text-xs font-bold text-blue-900">कहानी सुनाने वाला</p><p class="text-[9px] text-blue-400">प्ले करें</p></div>
-                </div>
-                <div id="t-${id}" class="text-sm text-slate-700 leading-relaxed">${text.replace(/\n/g, '<br>')}</div>
-            </div>`;
+            div.className = "flex justify-start animate-in fade-in";
+            div.innerHTML = `
+                <div class="bg-gradient-to-br from-white to-blue-50 border border-blue-100 p-5 rounded-3xl w-full max-w-[90%] shadow-md">
+                    <div class="flex items-center gap-3 mb-4 bg-white p-2 rounded-2xl shadow-sm border border-slate-100">
+                        <button onclick="playTTS('${id}')" class="w-10 h-10 blue-gradient text-white rounded-full flex items-center justify-center shadow-md animate-pulse-ring"><i data-lucide="play" class="w-4 h-4 ml-0.5"></i></button>
+                        <div class="flex-1">
+                            <p class="text-xs font-bold text-blue-900">कथावाचक (Storyteller)</p>
+                            <p class="text-[9px] text-slate-500">सुनने के लिए प्ले दबाएं</p>
+                        </div>
+                    </div>
+                    <div id="txt-${id}" class="text-sm text-slate-700 leading-relaxed max-h-48 overflow-y-auto custom-scroll pr-2">${text.replace(/\n/g, '<br>')}</div>
+                </div>`;
             chatContainer.appendChild(div);
             lucide.createIcons();
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
 
-        window.playAudio = (id) => {
-            const txt = document.getElementById('t-'+id).innerText;
-            const u = new SpeechSynthesisUtterance(txt);
-            u.voice = voices[document.getElementById('voice-select').value];
-            u.pitch = document.getElementById('mood-select').value;
-            window.speechSynthesis.cancel();
-            window.speechSynthesis.speak(u);
+        // Play TTS with Moods
+        window.playTTS = (id) => {
+            synth.cancel();
+            const text = document.getElementById(`txt-${id}`).innerText;
+            const utter = new SpeechSynthesisUtterance(text);
+            
+            const voiceIdx = document.getElementById('voice-select').value;
+            if(voices[voiceIdx]) utter.voice = voices[voiceIdx];
+
+            const mood = document.getElementById('mood-select').value;
+            if (mood === 'serious') { utter.pitch = 0.7; utter.rate = 0.85; }
+            else if (mood === 'calm') { utter.pitch = 1.0; utter.rate = 0.8; }
+            else if (mood === 'excited') { utter.pitch = 1.3; utter.rate = 1.1; }
+
+            synth.speak(utter);
         };
 
         function appendLoading() {
-            const id = 'l' + Date.now();
+            const id = 'loading_' + Date.now();
             const div = document.createElement('div'); div.id = id;
-            div.innerHTML = `<div class="flex gap-2 p-4 text-[10px] font-bold text-blue-400 animate-pulse uppercase tracking-widest">Star is processing...</div>`;
+            div.className = "flex justify-start";
+            div.innerHTML = `<div class="bg-white border border-slate-100 px-5 py-3 rounded-full flex items-center gap-3 shadow-sm"><div class="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div><div class="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style="animation-delay: 0.1s"></div><div class="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style="animation-delay: 0.2s"></div></div>`;
             chatContainer.appendChild(div);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
             return id;
         }
         function removeLoading(id) { document.getElementById(id)?.remove(); }
 
-        async function save(type, p, r) {
-            if(auth.currentUser) await addDoc(collection(db, "users", auth.currentUser.uid, "history"), { type, p, r, t: Date.now() });
+        // Firebase Cloud Save & Sync
+        async function saveToCloud(type, p, r) {
+            if(!auth.currentUser) return;
+            await addDoc(collection(db, "users", auth.currentUser.uid, "history"), { type, p, r, timestamp: Date.now() });
         }
 
         function syncHistory(uid) {
-            onSnapshot(collection(db, "users", uid, "history"), (s) => {
+            const q = query(collection(db, "users", uid, "history"), orderBy("timestamp", "desc"));
+            onSnapshot(q, (snapshot) => {
                 const list = document.getElementById('history-list');
                 list.innerHTML = '';
-                s.docs.forEach(doc => {
+                snapshot.forEach(doc => {
                     const d = doc.data();
                     const el = document.createElement('div');
-                    el.className = "p-3 hover:bg-slate-50 rounded-xl cursor-pointer text-[10px] font-bold border border-transparent hover:border-slate-100";
-                    el.innerHTML = `<p class="truncate text-slate-600">${d.p}</p><p class="text-blue-400 text-[8px] uppercase">${d.type}</p>`;
+                    let icon = d.type === 'image' ? 'image' : d.type === 'story' ? 'headphones' : 'message-square';
+                    el.className = "p-3 bg-slate-50 hover:bg-blue-50 rounded-xl cursor-pointer border border-transparent hover:border-blue-100 transition-all group";
+                    el.innerHTML = `
+                        <div class="flex items-center gap-2 mb-1">
+                            <i data-lucide="${icon}" class="w-3 h-3 text-blue-500"></i>
+                            <span class="text-[9px] font-black uppercase text-blue-500 tracking-wider">${d.type}</span>
+                        </div>
+                        <p class="text-xs text-slate-700 truncate font-medium group-hover:text-blue-800">${d.p}</p>
+                    `;
                     el.onclick = () => {
-                        document.getElementById('logo-center').style.display = 'none';
+                        centerLogoBox.style.display = 'none';
                         if(d.type === 'image') appendImg(d.r, d.p);
                         else if(d.type === 'story') appendStory(d.r);
                         else { appendMsg('user', d.p); appendMsg('bot', d.r); }
                     };
-                    list.prepend(el);
+                    list.appendChild(el);
+                    lucide.createIcons();
                 });
             });
         }
